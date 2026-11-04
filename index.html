@@ -362,7 +362,7 @@
                 <div class="pane left-pane" id="left-pane">
                     <div class="pane-header">Original scan</div>
                     <div class="scan-viewport" id="scan-viewport">
-                        <img class="actual-scan-image" id="scan-image" src="Page90.jpg" alt="Page 90 Scan" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend','<div style=&quot;color:#c00;text-align:center&quot;>⚠️ Image not found.<br>Ensure Page90.jpg is in this folder.</div>')">
+                        <img class="actual-scan-image" id="scan-image" src="Page90.jpg" draggable="false" alt="Page 90 Scan" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend','<div style=&quot;color:#c00;text-align:center&quot;>⚠️ Image not found.<br>Ensure Page90.jpg is in this folder.</div>')">
                         <div class="scan-controls">
                             <button class="scan-btn" title="Zoom In" aria-label="Zoom in" onclick="scanZoom(.25)"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></button>
                             <button class="scan-btn" title="Zoom Out" aria-label="Zoom out" onclick="scanZoom(-.25)"><svg viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg></button>
@@ -728,18 +728,22 @@
         // --- Drag (mouse) ---
         scanImage.addEventListener('mousedown', (e) => {
             if (scale <= 1) return;
+            e.preventDefault();              // ⬅️ stops native image drag + text selection
             isDragging = true;
             startX = e.clientX - translateX;
             startY = e.clientY - translateY;
             scanImage.style.cursor = 'grabbing';
             scanViewport.style.cursor = 'grabbing';
         });
+        
         window.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
+            e.preventDefault();
             translateX = e.clientX - startX;
             translateY = e.clientY - startY;
             applyTransform();
         });
+        
         window.addEventListener('mouseup', () => {
             if (isDragging) {
                 isDragging = false;
