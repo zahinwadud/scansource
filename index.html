@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Wikisource Workspace - v4.1.0</title>
+    <title>Wikisource Workspace - v4.1.2</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --brand-blue: #3366cc; --brand-hover: #2a55af; --brand-light: #eaf3ff;
             --bg-canvas: #e8eaed; --surface-white: #ffffff; --surface-hover: #f8f9fa;
-            --border-main: #D0D0D0;
-            --border-light: #e2e2e2;
+            --border-main: #D0D0D0; --border-light: #e2e2e2;
             --text-dark: #202122; --text-base: #54595d; --text-muted: #72777d;
             --color-np: #d97706; --color-np-bg: #fef3c7;
             --color-prob: #dc2626; --color-prob-bg: #fee2e2;
@@ -34,67 +33,31 @@
         * { box-sizing: border-box; }
         body { font-family: var(--font-ui); background-color: var(--bg-canvas); color: var(--text-dark); margin: 0; display: flex; flex-direction: column; height: 100vh; height: 100dvh; overflow: hidden; font-size: 13px; transition: background-color 0.3s, color 0.3s; }
 
-        .top-header {
-            background: var(--surface-white);
-            border-bottom: 1px solid var(--border-main);
-            padding: 0 16px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-shrink: 0;
-            box-shadow: var(--shadow-sm);
-            z-index: 100;
-            min-height: 56px;
-            flex-wrap: nowrap;
-        }
+        .top-header { background: var(--surface-white); border-bottom: 1px solid var(--border-main); padding: 0 16px; display: flex; align-items: center; gap: 16px; flex-shrink: 0; box-shadow: var(--shadow-sm); z-index: 100; min-height: 56px; flex-wrap: nowrap; }
         .header-top-row { display: contents; }
-        .header-bottom-row {
-            display: flex; align-items: center; gap: 12px;
-            flex: 1; min-width: 0;
-            overflow: visible;
-            order: 2;
-        }
+        .header-bottom-row { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; overflow: visible; order: 2; }
         .logo-group { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 15px; color: var(--text-dark); text-decoration: none; flex-shrink: 0; order: 1; }
-        
+
         .book-selector { position: relative; min-width: 0; flex-shrink: 1; }
         .book-btn { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid transparent; padding: 6px 12px; border-radius: var(--radius-md); font-size: 16px; font-weight: 700; color: var(--text-dark); cursor: pointer; max-width: 100%; min-width: 0; }
         .book-btn:hover { background: var(--bg-canvas); border-color: var(--border-light); }
         .book-title-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
         .book-btn .chev, .book-btn .icon { flex-shrink: 0; }
-        
-        .pagination-group { 
-            display: inline-flex; align-items: center; gap: 4px;
-            position: relative; flex-shrink: 0;
-            background: transparent; border: none; padding: 0;
-        }
-        .nav-arrow { 
-            width: 32px; height: 32px;
-            background: var(--surface-white);
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--text-base);
-            transition: background 0.2s, border-color 0.2s;
-            flex-shrink: 0;
-        }
+
+        .pagination-group { display: inline-flex; align-items: center; gap: 4px; position: relative; flex-shrink: 0; background: transparent; border: none; padding: 0; }
+        .nav-arrow { width: 32px; height: 32px; background: var(--surface-white); border: 1px solid var(--border-light); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-base); transition: background 0.2s, border-color 0.2s; flex-shrink: 0; }
         .nav-arrow:hover { background: var(--bg-canvas); border-color: var(--border-main); }
-        .page-jump-btn { 
-            background: transparent; border: none; cursor: pointer;
-            padding: 6px 10px; font-weight: 600; font-size: 13px;
-            color: var(--text-dark); border-radius: 6px;
-            transition: background 0.2s;
-        }
+        .page-jump-btn { background: transparent; border: none; cursor: pointer; padding: 6px 10px; font-weight: 600; font-size: 13px; color: var(--text-dark); border-radius: 6px; transition: background 0.2s; }
         .page-jump-btn:hover { background: var(--bg-canvas); }
         .page-jump-btn .num { color: var(--text-dark); font-weight: 700; }
         .page-jump-btn .sep { color: var(--text-muted); font-weight: 400; }
-        
+
         .header-icons { display: flex; align-items: center; gap: 16px; flex-shrink: 0; margin-left: auto; order: 3; }
         .icon-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .icon-btn:hover { background: var(--bg-canvas); color: var(--text-dark); }
         .icon-btn.active { color: var(--brand-blue); background: var(--brand-light); }
         [data-theme="dark"] .icon-btn.active { background: var(--brand-light); color: var(--brand-blue); }
-        
+
         .user-menu-container { position: relative; }
         .user-profile { display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer; padding: 4px 8px; border-radius: var(--radius-md); transition: background 0.2s; }
         .user-profile:hover { background: var(--bg-canvas); }
@@ -105,7 +68,7 @@
         .user-dropdown-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; color: var(--brand-blue); font-size: 14px; text-decoration: none; border-radius: 4px; cursor: pointer; }
         .user-dropdown-item:hover { background: var(--bg-canvas); }
         .user-dropdown-item svg { width: 18px; height: 18px; fill: currentColor; }
-        
+
         .dropdown-menu { position: absolute; top: calc(100% + 8px); left: 0; background: var(--surface-white); border: 1px solid var(--border-main); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); padding: 8px; min-width: 250px; display: none; z-index: 1000; }
         .dropdown-menu.active { display: block; }
         #book-menu { position: fixed; top: 0; left: 0; z-index: 2000; width: 320px; }
@@ -115,17 +78,17 @@
         .dropdown-item:hover { background: var(--bg-canvas); color: var(--brand-blue); }
         .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
         .dot-np { background: var(--color-np); } .dot-prob { background: var(--color-prob); } .dot-proof { background: var(--color-proof); } .dot-val { background: var(--color-val); }
-        
+
         .page-ribbon { display: flex; width: 100%; height: 8px; background: var(--bg-canvas); padding: 0 16px; gap: 1px; flex-shrink: 0; }
         .ribbon-segment { flex: 1; height: 100%; background: var(--color-empty); cursor: pointer; transition: opacity 0.1s; position: relative; }
         .ribbon-segment:hover { opacity: 0.7; } .ribbon-segment.proof { background: var(--color-proof); } .ribbon-segment.val { background: var(--color-val); } .ribbon-segment.prob { background: var(--color-prob); }
         .ribbon-segment.active::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px; background: var(--brand-blue); }
-        
+
         .mobile-progress { display: none; padding: 8px 16px; background: var(--surface-white); border-bottom: 1px solid var(--border-light); align-items: center; gap: 8px; flex-shrink: 0; }
         .mobile-progress-bar-container { flex: 1; height: 6px; background: var(--color-empty); border-radius: 3px; overflow: hidden; }
         .mobile-progress-bar { height: 100%; width: 37.5%; background: var(--color-proof); transition: width 0.3s, background-color 0.3s; }
         .mobile-progress-text { font-size: 11px; font-weight: 600; color: var(--text-muted); white-space: nowrap; padding: 0 4px; }
-        
+
         .main-layout { display: flex; flex: 1; padding: 16px; gap: 16px; min-height: 0; transition: all 0.3s ease; }
         .center-column { flex: 1; display: flex; flex-direction: column; gap: 16px; min-width: 0; width: 100%; max-width: var(--workspace-max-width); margin: 0 auto; transition: max-width 0.3s ease; }
         .stepper-container { display: flex; align-items: center; justify-content: space-between; }
@@ -152,31 +115,20 @@
         .tool-btn { background: transparent; border: 1px solid transparent; padding: 6px; border-radius: 4px; display: flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; cursor: pointer; color: var(--text-base); } .tool-btn:hover { background: var(--bg-canvas); color: var(--brand-blue); } .tool-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
         .tool-dropdown { position: relative; }
         .tool-dropdown-btn { background: transparent; border: 1px solid transparent; padding: 6px 12px; font-size: 13px; font-weight: 500; color: var(--text-base); cursor: pointer; border-radius: var(--radius-md); display: flex; align-items: center; gap: 4px; height: 32px; } .tool-dropdown-btn:hover, .tool-dropdown-btn.active { background: var(--bg-canvas); color: var(--brand-blue); }
-        
-        .tool-dropdown-menu { 
-            position: fixed;
-            top: 0; left: 0;
-            background: var(--surface-white); border: 1px solid var(--border-main); 
-            border-radius: var(--radius-md); box-shadow: var(--shadow-lg); 
-            padding: 8px; 
-            display: none; 
-            z-index: 2000;
-            width: 360px; 
-            max-height: 60vh; 
-            overflow-y: auto;
-        }
+
+        .tool-dropdown-menu { position: fixed; top: 0; left: 0; background: var(--surface-white); border: 1px solid var(--border-main); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); padding: 8px; display: none; z-index: 2000; width: 360px; max-height: 60vh; overflow-y: auto; }
         .tool-dropdown-menu.active { display: block; }
-        
+
         .cat-view { display: flex; flex-direction: column; gap: 4px; } .cat-view.active { display: flex; } .cat-view:not(.active) { display: none; }
         .cat-btn { padding: 10px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text-dark); display: flex; justify-content: space-between; align-items: center; } .cat-btn:hover { background: var(--bg-canvas); color: var(--brand-blue); } .cat-btn::after { content: '›'; font-size: 16px; color: var(--text-muted); }
         .template-view { display: none; } .template-view.active { display: block; }
         .back-btn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; margin-bottom: 8px; font-size: 12px; font-weight: 600; color: var(--brand-blue); cursor: pointer; border-radius: 4px; } .back-btn:hover { background: var(--bg-canvas); }
         .template-view-title { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; padding-left: 8px; }
-        
+
         .template-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
         .template-item { padding: 6px 8px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 11px; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: var(--bg-canvas); min-width: 0; }
         .template-item:hover { background: var(--brand-light); color: var(--brand-blue); }
-        
+
         .btn-ocr { background: var(--brand-light); color: var(--brand-blue); border: 1px solid var(--brand-blue); padding: 6px 16px; border-radius: var(--radius-lg); font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; } .btn-ocr:hover { background: var(--brand-blue); color: white; } .btn-ocr svg { fill: currentColor; }
         .editor-container { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; background: var(--surface-white); }
         .editor-section { display: flex; flex-direction: column; position: relative; min-height: 60px; transition: height 0.1s ease; }
@@ -227,7 +179,12 @@
         .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border-light); display: flex; justify-content: flex-end; gap: 12px; background: var(--surface-hover); }
         .mobile-tabs { display: none; background: var(--surface-white); border-bottom: 1px solid var(--border-main); padding: 8px; gap: 8px; }
         .mobile-tab { flex: 1; padding: 8px; text-align: center; font-weight: 600; font-size: 13px; color: var(--text-base); background: var(--bg-canvas); border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s; } .mobile-tab.active { background: var(--brand-blue); color: white; }
-        
+
+        .scan-viewport { align-items: safe center; justify-content: safe center; }
+        .saved-status.dirty { color: var(--color-np); } .saved-status.dirty .saved-status-icon { background: var(--color-np-bg); }
+        #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--text-dark); color: var(--surface-white); padding: 8px 16px; border-radius: var(--radius-md); display: none; z-index: 3000; font-size: 13px; }
+
+        /* Mobile layout: original rules + the two fixes (min-height:0 + dvh) */
         @media (max-width: 900px) {
             .top-header { flex-direction: column; align-items: stretch; padding: 8px 12px; gap: 6px; min-height: auto; }
             .header-top-row { display: flex; align-items: center; gap: 16px; justify-content: space-between; width: 100%; order: 1; }
@@ -236,34 +193,25 @@
             .header-bottom-row { flex-direction: column; align-items: stretch; gap: 6px; order: 2; }
             .book-selector { width: 100%; }
         }
-        
+
         @media (max-width: 1280px) {
             .pagination-group { display: none; }
             .page-ribbon { display: none; }
             .mobile-progress { display: flex; }
-          /* mobile layout scroll fix */  
-            .main-layout {
-                flex: 1 1 auto;
-                min-height: 0;
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                padding-bottom: calc(8px + env(safe-area-inset-bottom));
-            }
-            .pane {
-                height: calc(100vh - 280px);
-                height: calc(100dvh - 280px);
-            }
+
+            .main-layout { flex-direction: column; padding: 8px; flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: calc(8px + env(safe-area-inset-bottom)); }
+            .sidebar { width: 100%; height: auto; margin-top: 16px; overflow-y: visible; }
+
             .stepper-container { flex-direction: column; align-items: stretch; gap: 12px; } .stepper { width: 100%; } .step { flex: 1; text-align: center; padding: 10px 8px; font-size: 12px; }
             .quick-actions { width: 100%; justify-content: stretch; flex-wrap: wrap; } .status-badge { flex: 1; justify-content: center; } .btn-primary { flex: 1; }
-            
-            /* .main-layout { flex-direction: column; overflow-y: auto; padding: 8px; } .sidebar { width: 100%; height: auto; margin-top: 16px; overflow-y: visible; } */
-            .split-panes { flex-direction: column; height: auto; } .pane { flex: none; height: calc(100vh - 280px); min-height: 400px; } .body-section { min-height: 300px; }
-            .mobile-tabs { display: flex; } .pane.left-pane { display: none; } .pane.left-pane.active { display: flex; } .pane.right-pane { display: none; } .pane.right-pane.active { display: flex; }
+
+            .split-panes { flex-direction: column; height: auto; }
+            .pane { flex: none; height: calc(100vh - 280px); height: calc(100dvh - 280px); min-height: 400px; }
+            .body-section { min-height: 300px; }
+            .mobile-tabs { display: flex; }
+            .pane.left-pane { display: none; } .pane.left-pane.active { display: flex; }
+            .pane.right-pane { display: none; } .pane.right-pane.active { display: flex; }
         }
-        
-        .scan-viewport { align-items: safe center; justify-content: safe center; }
-        .saved-status.dirty { color: var(--color-np); } .saved-status.dirty .saved-status-icon { background: var(--color-np-bg); }
-        #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--text-dark); color: var(--surface-white); padding: 8px 16px; border-radius: var(--radius-md); display: none; z-index: 3000; font-size: 13px; }
     </style>
 </head>
 <body data-theme="light" class="proofread-mode">
@@ -312,7 +260,7 @@
                     <div class="dropdown-item">অধ্যায় ২: শেরউড বন</div>
                 </div>
             </div>
-            
+
             <div class="pagination-group">
                 <button class="nav-arrow" aria-label="Previous page" onclick="event.stopPropagation(); changePage(-1)">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -333,7 +281,7 @@
     </header>
 
     <div class="page-ribbon" id="page-ribbon"></div>
-    
+
     <div class="mobile-progress">
         <button class="nav-arrow" aria-label="Previous page" onclick="changePage(-1)" style="flex-shrink:0;">◀</button>
         <div class="mobile-progress-bar-container"><div class="mobile-progress-bar" id="mobile-progress-bar"></div></div>
@@ -397,7 +345,7 @@
                             <button class="tool-btn" title="Reference"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></button>
                             <button class="tool-btn" title="Template"><svg viewBox="0 0 24 24"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg></button>
                         </div>
-                        
+
                         <div class="tool-group">
                             <div class="tool-dropdown">
                                 <button class="tool-dropdown-btn" id="struct-menu-btn" onclick="toggleStructMenu()">Structure ▾</button>
@@ -545,18 +493,28 @@
             sylheti: { title: "সিলেটি নাগরী", items: ["{{Syloti|}}", "{{Syloti-nagri|}}"] }
         };
 
-        function positionBookMenu() {
-            const menu = document.getElementById('book-menu');
-            const btn = document.getElementById('book-menu-btn');
-            if (!menu || !btn) return;
-            const r = btn.getBoundingClientRect();
-            const menuWidth = Math.min(320, window.innerWidth - 32);
+        /* Position a fixed-position menu near its button, clamped to the viewport. */
+        function positionFixedMenu(menuEl, btnEl, preferredWidth) {
+            if (!menuEl || !btnEl) return;
+            const r = btnEl.getBoundingClientRect();
+            const menuWidth = Math.min(preferredWidth, window.innerWidth - 32);
             let left = r.left;
             if (left + menuWidth > window.innerWidth - 16) left = window.innerWidth - menuWidth - 16;
             if (left < 16) left = 16;
-            menu.style.left = left + 'px';
-            menu.style.top = (r.bottom + 4) + 'px';
-            menu.style.width = menuWidth + 'px';
+            let top = r.bottom + 4;
+            // On small screens, if the menu would go off the bottom, pin it a bit above the bottom.
+            const menuHeight = menuEl.offsetHeight || 0;
+            const viewportH = window.innerHeight;
+            if (top + menuHeight > viewportH - 16) {
+                top = Math.max(16, viewportH - menuHeight - 16);
+            }
+            menuEl.style.left = left + 'px';
+            menuEl.style.top = top + 'px';
+            menuEl.style.width = menuWidth + 'px';
+        }
+
+        function positionBookMenu() {
+            positionFixedMenu(document.getElementById('book-menu'), document.getElementById('book-menu-btn'), 320);
         }
 
         function openBookMenu() {
@@ -564,8 +522,9 @@
             const isOpen = menu.classList.contains('active');
             document.querySelectorAll('.dropdown-menu, .tool-dropdown-menu, .user-dropdown').forEach(d => d.classList.remove('active'));
             if (!isOpen) {
-                positionBookMenu();
+                // Show first so offsetHeight is measurable, then position.
                 menu.classList.add('active');
+                positionBookMenu();
             }
         }
 
@@ -575,27 +534,17 @@
         });
 
         function positionStructMenu() {
-            const menu = document.getElementById('struct-menu');
-            const btn = document.getElementById('struct-menu-btn');
-            if (!menu || !btn) return;
-            const r = btn.getBoundingClientRect();
-            const menuWidth = Math.min(360, window.innerWidth - 32);
-            let left = r.left;
-            if (left + menuWidth > window.innerWidth - 16) left = window.innerWidth - menuWidth - 16;
-            if (left < 16) left = 16;
-            menu.style.left = left + 'px';
-            menu.style.top = (r.bottom + 4) + 'px';
-            menu.style.width = menuWidth + 'px';
+            positionFixedMenu(document.getElementById('struct-menu'), document.getElementById('struct-menu-btn'), 360);
         }
 
         function toggleStructMenu() {
             const menu = document.getElementById('struct-menu');
             if (menu.classList.contains('active')) { menu.classList.remove('active'); }
             else {
-                positionStructMenu();
                 menu.classList.add('active');
                 document.getElementById('cat-view').classList.add('active');
                 document.getElementById('template-view').classList.remove('active');
+                positionStructMenu();
             }
         }
 
@@ -678,7 +627,7 @@
         }
 
         /* ============================================
-           SCAN PANE: drag + smooth zoom (buttons, wheel, pinch)
+           SCAN PANE: drag + smooth zoom
            ============================================ */
         const scanViewport = document.getElementById('scan-viewport');
         const scanImage = document.getElementById('scan-image');
@@ -697,7 +646,6 @@
             scanImage.style.transform = `translate(${translateX}px, ${translateY}px) rotate(${rotation}deg)`;
         }
 
-        // Zoom anchored to a specific cursor point
         function zoomAt(newScale, cx, cy) {
             ensureBaseWidth();
             newScale = Math.min(4, Math.max(1, newScale));
@@ -711,7 +659,6 @@
             translateX = translateX - offsetX * (ratio - 1);
             translateY = translateY - offsetY * (ratio - 1);
 
-            // Soft clamp
             const maxTx = (baseWidth * newScale - vpRect.width) / 2 + vpRect.width / 2;
             const maxTy = (baseWidth * newScale - vpRect.height) / 2 + vpRect.height / 2;
             translateX = Math.max(-maxTx, Math.min(maxTx, translateX));
@@ -740,14 +687,14 @@
         // --- Drag (mouse) ---
         scanImage.addEventListener('mousedown', (e) => {
             if (scale <= 1) return;
-            e.preventDefault();              // ⬅️ stops native image drag + text selection
+            e.preventDefault();
             isDragging = true;
             startX = e.clientX - translateX;
             startY = e.clientY - translateY;
             scanImage.style.cursor = 'grabbing';
             scanViewport.style.cursor = 'grabbing';
         });
-        
+
         window.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
             e.preventDefault();
@@ -755,7 +702,7 @@
             translateY = e.clientY - startY;
             applyTransform();
         });
-        
+
         window.addEventListener('mouseup', () => {
             if (isDragging) {
                 isDragging = false;
@@ -774,15 +721,16 @@
         }, { passive: true });
         window.addEventListener('touchmove', (e) => {
             if (!isDragging || e.touches.length !== 1) return;
+            e.preventDefault();
             translateX = e.touches[0].clientX - touchStartX;
             translateY = e.touches[0].clientY - touchStartY;
             applyTransform();
-        }, { passive: true });
+        }, { passive: false });
         window.addEventListener('touchend', (e) => {
             if (e.touches.length === 0) isDragging = false;
         });
 
-        // --- Wheel zoom (throttled with rAF) ---
+        // --- Wheel zoom ---
         let wheelPending = false;
         let wheelDelta = 0;
         let wheelCursor = { x: 0, y: 0 };
@@ -801,7 +749,7 @@
             });
         }, { passive: false });
 
-        // --- Pinch zoom (touch) ---
+        // --- Pinch zoom ---
         let pinchStartDist = 0, pinchStartScale = 1;
         scanViewport.addEventListener('touchstart', (e) => {
             if (e.touches.length === 2) {
@@ -835,7 +783,7 @@
         function toggleAccordion(header) { header.parentElement.classList.toggle('closed'); }
         function changeTextSize(size) { document.documentElement.style.setProperty('--editor-font-size', size + 'px'); setTimeout(() => { autoExpand(document.getElementById('header-editor')); autoExpand(document.getElementById('footer-editor')); }, 10); }
         function changeWidth(width) { if (width === 'standard') { document.documentElement.style.setProperty('--workspace-max-width', '1200px'); } else { document.documentElement.style.setProperty('--workspace-max-width', '100%'); } }
-        
+
         function triggerOCR() {
             const btn = document.querySelector('.btn-ocr'); const originalText = btn.innerHTML;
             btn.innerHTML = 'Scanning...'; btn.style.opacity = '0.5';
@@ -867,7 +815,7 @@
         function setStatus(statusType) {
             const badge = document.getElementById('main-status-badge'); const statusText = document.getElementById('status-text');
             badge.style.backgroundColor = ''; badge.style.borderColor = '';
-            if (statusType === 'np') { badge.style.backgroundColor = 'var(--color-np-bg)'; badge.style.borderColor = 'var(--color-np)'; statusText.innerHTML = '<span class="dot dot-np"></span> <span style="color:var(--color-np)">Not Proofread ▼</span>'; } 
+            if (statusType === 'np') { badge.style.backgroundColor = 'var(--color-np-bg)'; badge.style.borderColor = 'var(--color-np)'; statusText.innerHTML = '<span class="dot dot-np"></span> <span style="color:var(--color-np)">Not Proofread ▼</span>'; }
             else if (statusType === 'prob') { badge.style.backgroundColor = 'var(--color-prob-bg)'; badge.style.borderColor = 'var(--color-prob)'; statusText.innerHTML = '<span class="dot dot-prob"></span> <span style="color:var(--color-prob)">Problematic ▼</span>'; }
             else if (statusType === 'proof') { badge.style.backgroundColor = 'var(--color-proof-bg)'; badge.style.borderColor = 'var(--color-proof)'; statusText.innerHTML = '<span class="dot dot-proof"></span> <span style="color:var(--color-proof)">Proofread ▼</span>'; }
             else if (statusType === 'val') { badge.style.backgroundColor = 'var(--color-val-bg)'; badge.style.borderColor = 'var(--color-val)'; statusText.innerHTML = '<span class="dot dot-val"></span> <span style="color:var(--color-val)">Validated ▼</span>'; }
@@ -889,10 +837,10 @@
             currentPage = parseInt(document.getElementById('page-input').value); updatePageDisplay(); toggleDropdown('page-menu');
             document.querySelectorAll('.ribbon-segment').forEach((el, i) => { el.classList.remove('active'); if(i + 1 === currentPage) el.classList.add('active'); });
         }
-        function updatePageDisplay() { 
-            document.getElementById('current-page-display').innerText = currentPage; 
-            document.getElementById('page-input').value = currentPage; 
-            updateMobileProgress(currentPage); 
+        function updatePageDisplay() {
+            document.getElementById('current-page-display').innerText = currentPage;
+            document.getElementById('page-input').value = currentPage;
+            updateMobileProgress(currentPage);
         }
         function replaceText(find, replace) { const editor = document.getElementById('body-editor'); editor.value = editor.value.replace(find, replace); updateHighlight('body'); }
         function insertSyntax(text) { const editor = document.getElementById('body-editor'); const pos = editor.selectionStart; editor.value = editor.value.slice(0, pos) + text + editor.value.slice(pos); updateHighlight('body'); }
